@@ -46,7 +46,7 @@ Menu:
 
 Building:
 
--E : Rotate Building 90 degrees
+- E : Rotate Building 90 degrees
 - Left Click: Place Building
 - Mouse: Change location of building
 
