@@ -1,7 +1,7 @@
 # Survival Game Concept
 **Intro**
 
-This is a medium-high level Prototype of a Unreal Engine v5 Game Completely done mainly in C++,C, & C#. In this protoype it's a proof of concept of the basic mechanics of a survival game. It includes: Eating, Harvesting trees, Mining Rocks, Other creatures, Health, Stamina, Hunger, Inventory system, & A building system with even more to discover. The level uses Unreal Engine v5 landscaping tools to create a simple level that could be added upon if wanted too.  
+This is a medium-high level Prototype of a Unreal Engine v5 Game, done mainly in C++,C, & C#. In this protoype it's a proof of concept of the basic mechanics of a survival game. It includes: Eating, Harvesting trees, Mining Rocks, Other creatures, Health, Stamina, Hunger, Inventory system, & A building system with even more to discover. The level uses Unreal Engine v5 landscaping tools to create a simple level that could be added upon if wanted too.  
 
 ---
 
@@ -30,19 +30,22 @@ I also used some blue prints to handle the simpler things in the engine for inst
 **Controls**
 
 Player Controls: 
+
 - W: Forward
 - A: Walk left
 - S: Walk Backwards
 - D: Walk Right
 - Space: Jump
-
 - Mouse: Camera
 - Left Click: Interact Button
+
+Menu:
 
 - F: Invenotry Menu
 - F: Exit Invenotry Menu
 
 Building:
+
 -E : Rotate Building 90 degrees
 - Left Click: Place Building
 - Mouse: Change location of building
