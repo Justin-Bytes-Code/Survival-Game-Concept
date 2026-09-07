@@ -123,6 +123,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetStamina(float amount);
 	//------------------------------------------------------------//
+	UFUNCTION(BlueprintCallable)
+		void GainStamina(float amount);
+
+
+	//------------------------------------------------------------//
+
 	UFUNCTION()
 		void DecreaseStats();
 	//------------------------------------------------------------//

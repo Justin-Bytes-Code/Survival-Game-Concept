@@ -190,7 +190,19 @@ void APlayerChar::SetStamina(float amount)
 	{
 		Stamina = Stamina + amount;
 	}
+	else if (Stamina + amount > 100)
+	{
+		Stamina = 100;
+	}
 }
+
+void APlayerChar::GainStamina(float amount)
+{
+	if (Stamina + amount > 1) {
+
+	}
+}
+	
 
 void APlayerChar::DecreaseStats()
 {
