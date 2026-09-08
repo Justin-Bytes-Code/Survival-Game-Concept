@@ -54,7 +54,10 @@ public:
 	UCameraComponent* PlayerCamComp;
 
 
-	//Establishing Variable. Edit Anywhere is so you can edit inside unreal. Blue Print read write is so we can customize it anywhere.  Player stats sorts it and adds a new section.
+	//Establishing Player Variables. 
+	// Edit Anywhere is so you can edit inside unreal. 
+	// Blue Print read write is so we can customize it anywhere.  
+	// Player stats sorts it and adds a new section.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
 		float Health = 100.0f;
 
@@ -63,6 +66,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
 		float Stamina = 100.0f;
+
+	// Initializing Resources
 	//------------------------------------------------------------//
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
@@ -74,8 +79,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Resources")
 		int Berry;
 
-
-	//Fixed to int
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Resources")
 		TArray<int> ResourcesArray;
 
@@ -84,8 +87,16 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "HitMarker")
 		UMaterialInterface* hitDecal;
-	//------------------------------------------------------------//
 
+	// Initializing Sound Effects
+	//------------------------------------------------------------//
+		UPROPERTY(EditAnywhere)
+		class USoundBase* ClickSound;
+		UPROPERTY(EditAnywhere)
+		class USoundBase* BuildSound;
+
+	// Initializing Building Supplies
+	//------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building Supplies")
 		TArray<int> BuildingArray;
 
@@ -97,9 +108,13 @@ public:
 
 	UPROPERTY()
 		ABuildingPart* spawnedPart;
+
+	// Initializing Player UI
 	//------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UPlayerWidget* playerUI;
+
+	// Initializing Objectives
 	//------------------------------------------------------------//
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UObjectiveWidget* objWidget;
@@ -110,9 +125,7 @@ public:
 	UPROPERTY()
 		float matsCollected;
 
-
-
-
+	// Initializing Set Player Parameters 
 	//------------------------------------------------------------//
 	UFUNCTION (BlueprintCallable)
 		void SetHealth(float amount);
@@ -122,18 +135,23 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void SetStamina(float amount);
+
+	// Initializing Gain Functions (Currently Unused) 
 	//------------------------------------------------------------//
 	UFUNCTION(BlueprintCallable)
 		void GainStamina(float amount);
 
-
+	// Initializing Decrease Player Parameters  
 	//------------------------------------------------------------//
-
 	UFUNCTION()
 		void DecreaseStats();
+
+	// Initializing Player Inventory 
 	//------------------------------------------------------------//
 	UFUNCTION()
 		void GiveResource(float amount, FString resourceType);
+
+	// Initializing Inventory
 	//------------------------------------------------------------//
 
 	UFUNCTION(BlueprintCallable)
@@ -142,6 +160,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SpawnBuilding(int buildingID, bool& isSuccess);
 
+	// Initializing Rotate Function For Players
+	//------------------------------------------------------------//
 	UFUNCTION()
 		void RotateBuilding();
 };

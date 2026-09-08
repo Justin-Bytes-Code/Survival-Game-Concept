@@ -16,23 +16,30 @@ APlayerChar::APlayerChar()
 
 	PlayerCamComp->bUsePawnControlRotation = true;
 
+	// Default Total Number Of Building Options Inside Array
+	BuildingArray.SetNum(4);
 
-	BuildingArray.SetNum(3);
+	// Default Resources
 	ResourcesArray.SetNum(3);
 	ResourcesNameArray.Add(TEXT("Wood"));
 	ResourcesNameArray.Add(TEXT("Stone"));
 	ResourcesNameArray.Add(TEXT("Berry"));
 
+	// Default Sounds (Set inside character Blue print) 
+	ClickSound = CreateDefaultSubobject<USoundBase>(TEXT("Click Sound"));
+	BuildSound = CreateDefaultSubobject<USoundBase>(TEXT("Build Sound"));
 }
 
 // Called when the game starts or when spawned
 void APlayerChar::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
+	// Decreases Player Stats overtime
 	FTimerHandle StatsTimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(StatsTimerHandle, this, &APlayerChar::DecreaseStats, 2.0f, true);
 	
+	// Updates Objective Widget 
 	if (objWidget)
 	{
 		objWidget->UpdatebuildObj(0.0f);
@@ -45,7 +52,9 @@ void APlayerChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// Updates Player UI
 	playerUI->UpdateBars(Health, Hunger, Stamina);
+
 
 	if (isBuilding)
 	{
@@ -64,7 +73,7 @@ void APlayerChar::Tick(float DeltaTime)
 // Called to bind functionality to input
 void APlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	//what each input is suppose to do
+	// Inputs Player Can Make
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerChar::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerChar::MoveRight);
@@ -76,28 +85,30 @@ void APlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("RotPart", IE_Pressed, this, &APlayerChar::RotateBuilding); 
 }
 
+// Player Can Walk Forward
 void APlayerChar::MoveForward(float axisValue)
 {
 	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, axisValue);
 }
-
+// Player Can Move Right
 void APlayerChar::MoveRight(float axisValue)
 {
 	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
 	AddMovementInput(Direction, axisValue);
 }
-
+// Player can Jump 
 void APlayerChar::StartJump()
 {
 	bPressedJump = true;
 }
-
+// Player Can't Jump
 void APlayerChar::StopJump()
 {
 	bPressedJump = false; 
 }
 
+// Player Mouse Click Interaction
 void APlayerChar::FindObject()
 {
 	FHitResult HitResult;
@@ -120,6 +131,9 @@ void APlayerChar::FindObject()
 			{
 				if (HitResource)
 				{
+					float RandomPitch = FMath::FRandRange(0.90f, 1.00f);
+
+					UGameplayStatics::PlaySound2D(this, ClickSound, RandomPitch);
 					FString hitName = HitResource->resourceName;
 					int resourceValue = HitResource->resourceAmount;
 
@@ -134,7 +148,6 @@ void APlayerChar::FindObject()
 						objWidget->UpdatematOBJ(matsCollected);
 
 						check(GEngine != nullptr);
-						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
 
 						UGameplayStatics::SpawnDecalAtLocation(GetWorld(), hitDecal, FVector(10.0f, 10.0f, 10.0f), HitResult.Location, FRotator(-90, 0, 0), 2.0f);
 
@@ -164,7 +177,7 @@ void APlayerChar::FindObject()
 
 
 }
-
+// Allows Player to Gain Health
 void APlayerChar::SetHealth(float amount)
 {
 	if (Health + amount < 100)
@@ -173,6 +186,7 @@ void APlayerChar::SetHealth(float amount)
 	}
 }
 
+// Allows Player to Gain Hunger
 void APlayerChar::SetHunger(float amount)
 {
 	if (Hunger + amount < 100)
@@ -184,6 +198,7 @@ void APlayerChar::SetHunger(float amount)
 	}
 }
 
+// Allows Player to Gain Stamina
 void APlayerChar::SetStamina(float amount)
 {
 	if (Stamina + amount < 100)
@@ -196,14 +211,13 @@ void APlayerChar::SetStamina(float amount)
 	}
 }
 
+// Allows Player to Gain Stamina (Currently Unused) 
 void APlayerChar::GainStamina(float amount)
 {
-	if (Stamina + amount > 1) {
 
-	}
 }
 	
-
+// Decreases Player Health, Hunger, and Stamina if certain certain variables hit 0.
 void APlayerChar::DecreaseStats()
 {
 	if (Hunger > 0)
@@ -219,6 +233,8 @@ void APlayerChar::DecreaseStats()
 	}
 }
 
+// Allows Add resources to player inventory when interacting.
+// The amount is based on the resource they are mining
 void APlayerChar::GiveResource(float amount, FString resourceType)
 {
 
@@ -237,6 +253,7 @@ void APlayerChar::GiveResource(float amount, FString resourceType)
 	
 }
 
+// Updates Players Inventory 
 void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString buildingObject)
 {
 	if (woodAmount <= ResourcesArray[0])
@@ -246,6 +263,7 @@ void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString b
 			ResourcesArray[0] = ResourcesArray[0] - woodAmount;
 			ResourcesArray[1] = ResourcesArray[1] - stoneAmount;
 			
+			//All Building types. If your adding more buildings add them here. 
 			if (buildingObject == "Wall")
 			{
 				BuildingArray[0] = BuildingArray[0] + 1;
@@ -258,10 +276,15 @@ void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString b
 			{
 				BuildingArray[2] = BuildingArray[2] + 1;
 			}
+			if (buildingObject == "Stairs")
+			{
+				BuildingArray[3] = BuildingArray[3] + 1;
+			}
 		}
 	}
 }
 
+// Spawning Building Function
 void APlayerChar::SpawnBuilding(int buildingID, bool& isSuccess)
 {
 	if (!isBuilding)
@@ -288,6 +311,7 @@ void APlayerChar::SpawnBuilding(int buildingID, bool& isSuccess)
 	}
 }
 
+// Player Presses E to Rotate Building
 void APlayerChar::RotateBuilding()
 {
 	if (isBuilding)
