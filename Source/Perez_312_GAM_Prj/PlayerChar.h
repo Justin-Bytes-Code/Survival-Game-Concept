@@ -48,6 +48,9 @@ public:
 		void StopJump();
 
 	UFUNCTION()
+		void LoseMenu();
+
+	UFUNCTION()
 		void FindObject();
 
 	UPROPERTY(VisibleAnywhere)
@@ -90,10 +93,12 @@ public:
 
 	// Initializing Sound Effects
 	//------------------------------------------------------------//
-		UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere)
 		class USoundBase* ClickSound;
-		UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere)
 		class USoundBase* BuildSound;
+	UPROPERTY(EditAnywhere)
+		class USoundBase* DepletedSound;
 
 	// Initializing Building Supplies
 	//------------------------------------------------------------//
@@ -135,6 +140,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void SetStamina(float amount);
+
+	// Initalizing Decreasing Player Parameters
+	//------------------------------------------------------------//
+	UFUNCTION (BlueprintCallable)
+		void HurtHealth(float amount);
+
 
 	// Initializing Gain Functions (Currently Unused) 
 	//------------------------------------------------------------//

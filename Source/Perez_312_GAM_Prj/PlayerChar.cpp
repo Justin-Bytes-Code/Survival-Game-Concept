@@ -79,6 +79,7 @@ void APlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerChar::MoveRight);
 	PlayerInputComponent->BindAxis("LookUp", this, &APlayerChar::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("Turn", this, &APlayerChar::AddControllerYawInput);
+	PlayerInputComponent->BindAction("LoseMenu", IE_Pressed, this, &APlayerChar::LoseMenu);
 	PlayerInputComponent->BindAction("JumpEvent", IE_Pressed, this, &APlayerChar::StartJump);
 	PlayerInputComponent->BindAction("JumpEvent", IE_Released, this, &APlayerChar::StopJump);
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerChar::FindObject);
@@ -108,6 +109,11 @@ void APlayerChar::StopJump()
 	bPressedJump = false; 
 }
 
+void APlayerChar::LoseMenu()
+{
+
+}
+
 // Player Mouse Click Interaction
 void APlayerChar::FindObject()
 {
@@ -123,12 +129,15 @@ void APlayerChar::FindObject()
 
 	if (!isBuilding)
 	{
+		// Allows Player to Collect Resource
 		if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECC_Visibility, QuaryParams))
 		{
 			AResource_M* HitResource = Cast<AResource_M>(HitResult.GetActor());
 
+			// Allows Player to collect resource if stamina is above certain threshold
 			if (Stamina > 5.0f)
 			{
+				// If the player does connect with a item harvest the item
 				if (HitResource)
 				{
 					float RandomPitch = FMath::FRandRange(0.90f, 1.00f);
@@ -139,6 +148,7 @@ void APlayerChar::FindObject()
 
 					HitResource->totalResource = HitResource->totalResource - resourceValue;
 
+					// Spawns Building Material
 					if (HitResource->totalResource > resourceValue)
 					{
 						GiveResource(resourceValue, hitName);
@@ -154,11 +164,12 @@ void APlayerChar::FindObject()
 						SetStamina(-5.0f);
 
 					}
+					// Error Control & resource depletion
 					else
 					{
 						HitResource->Destroy();
 						check(GEngine != nullptr);
-						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Depleted"));
+						UGameplayStatics::PlaySound2D(this, DepletedSound, RandomPitch);
 
 					}
 				}
@@ -180,11 +191,32 @@ void APlayerChar::FindObject()
 // Allows Player to Gain Health
 void APlayerChar::SetHealth(float amount)
 {
-	if (Health + amount < 100)
+	if (Health + amount <= 100)
 	{
 		Health = Health + amount;
 	}
+	else
+	{
+		Health = 100;
+	}
 }
+
+void APlayerChar::HurtHealth(float amount)
+{
+	if (Health - amount > 0)
+	{
+		Health = Health - amount;
+	}
+	else if (Health - amount < 0)
+	{
+		Health = 0;
+	}
+	else if (Health == amount)
+	{
+		Health = 0;
+	}
+}
+
 
 // Allows Player to Gain Hunger
 void APlayerChar::SetHunger(float amount)
@@ -240,15 +272,15 @@ void APlayerChar::GiveResource(float amount, FString resourceType)
 
 	if (resourceType == "Wood")
 	{
-		ResourcesArray[0] = ResourcesArray[0] + amount;
+		ResourcesArray[0] += amount;
 	}
 	if (resourceType == "Stone")
 	{
-		ResourcesArray[1] = ResourcesArray[0] + amount;
+		ResourcesArray[1] += amount;
 	}
 	if (resourceType == "Berry")
 	{
-		ResourcesArray[2] = ResourcesArray[0] + amount;
+		ResourcesArray[2] +=  amount;
 	}
 	
 }

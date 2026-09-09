@@ -9,11 +9,10 @@ AResource_M::AResource_M()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// For Placeholder Resources thhat displays text on their resource
 	ResourceNameTxt = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Text Render"));
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-
 	RootComponent = Mesh;
-
 	ResourceNameTxt->SetupAttachment(Mesh);
 
 }
@@ -23,6 +22,7 @@ void AResource_M::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Sets Text of Resources on play 
 	tempText = tempText.FromString(resourceName);
 
 	ResourceNameTxt->SetText(tempText);
