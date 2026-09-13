@@ -1,29 +1,25 @@
 # Survival Game Concept
 **Intro**
 
-This is a medium-high level Prototype of a Unreal Engine v5 Game, done mainly in C++,C, & C#. In this protoype it's a proof of concept of the basic mechanics of a survival game. It includes: Eating, Harvesting trees, Mining Rocks, Other creatures, Health, Stamina, Hunger, Inventory system, & A building system with even more to discover. The level uses Unreal Engine v5 landscaping tools to create a simple level that could be added upon if wanted too.  
+This is a medium-high level Prototype of a Unreal Engine v5 Game, done mainly in C++. In this protoype it's a proof of concept of the basic mechanics of a survival game. It includes: Eating, Harvesting trees, Mining Rocks, Other creatures, Health, Stamina, Hunger, Inventory system, & A building system with even more to discover. The level uses Unreal Engine v5 landscaping tools to create a simple level that could be added upon if wanted too.  
 
 ---
 
 **Preview Images**
 
-<img width="1925" height="874" alt="image" src="https://github.com/user-attachments/assets/fdd1c5f9-120b-429b-a94f-804611d8b6aa" />
+Note: They are a little compressed mainly due to GitHub requirements! 
 
-<img width="1633" height="1279" alt="image" src="https://github.com/user-attachments/assets/b3f02d35-2c6f-471a-a102-48a5a14ba5cb" />
+<img width="1925" height="874" alt="image" src="https://github.com/user-attachments/assets/59dbd482-6881-46cd-83f9-1c17ca7e96ed" />
 
+<img width="2258" height="1166" alt="image" src="https://github.com/user-attachments/assets/35295eb8-0c1f-4c05-855e-f1f096e236d5" />
 
-<img width="2258" height="1166" alt="image" src="https://github.com/user-attachments/assets/d5922cd8-74af-418f-9d1d-2b3bd3a02f12" />
-
-
-<img width="1801" height="1298" alt="image" src="https://github.com/user-attachments/assets/b945dea0-3892-4bf5-9bc4-ec9a29f8f82d" />
-
-
+<img width="1801" height="1298" alt="image" src="https://github.com/user-attachments/assets/f533520a-b894-405d-b348-fdea8920d0a4" />
 
 ---
 
 **Gameplay Implemented**
 
-Most of the game was done completely in some form of C or C++ or C# Here is the mechanics done in these: 
+Most of the game was done completely in C++ Here is the mechanics done in these: 
 - Player Camera
 - Player Movement
 - Building Mechanics
@@ -59,6 +55,7 @@ Menu:
 
 - F: Invenotry Menu
 - F: Exit Invenotry Menu
+- Esc: Pause Menu
 
 Building:
 
@@ -71,7 +68,7 @@ Building:
 
 **How To Play**
 
-The game is currently in a sandbox state. Where your Objectives are displayed on the top right of the screen to give you direction. Your Main goal is to build a small house using 5 pieces. As well as collect 500 materials before your hunger goes down to 0 and you lose all your health. 
+The game is currently in a sandbox state. Where your Objectives are displayed on the top right of the screen to give you direction. 
 
 The main gameplay loop will be harvest resources. Enter your Inventory Menu and eat the berries collected or create buildings you can later place. 
 
@@ -107,10 +104,6 @@ A: I believe a good programmer should have code anyone can understand if they lo
 
 Q: "What do the other people do?" 
 A: Nothing as of currently. They are a proof of concept of animals that could be running around as the player collects resources as well as other surivalist. 
-
-Q: "I can't interact with Menus when I press F"
-A: "This is by design. I wanted to create a menu system like runescape where you can walk and glance into your inventory while walking. Left click when bringing it up and it will lock your cursor onto that window.
-
 
 
 ---
